@@ -1,0 +1,19 @@
+name: 'ae_de_demo'
+version: '1.0.0'
+config-version: 2
+
+profile: 'ae_de_demo'
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  ae_de_demo:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table
