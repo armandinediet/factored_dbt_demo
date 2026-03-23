@@ -39,8 +39,40 @@ def ensure_raw_schema() -> None:
 def truncate_raw_tables() -> None:
     ensure_raw_schema()
     with get_connection() as connection:
-        connection.execute(text("create table if not exists raw.raw_products (product_id bigint);"))
-        connection.execute(text("create table if not exists raw.raw_customers (customer_id bigint);"))
-        connection.execute(text("create table if not exists raw.raw_orders (order_id bigint);"))
-        connection.execute(text("create table if not exists raw.raw_order_items (order_item_id bigint);"))
-        connection.execute(text("truncate table raw.raw_order_items, raw.raw_orders, raw.raw_customers, raw.raw_products;"))
+        connection.execute(text("""
+            do $$
+            begin
+                if exists (
+                    select 1
+                    from information_schema.tables
+                    where table_schema = 'raw' and table_name = 'raw_order_items'
+                ) then
+                    truncate table raw.raw_order_items;
+                end if;
+
+                if exists (
+                    select 1
+                    from information_schema.tables
+                    where table_schema = 'raw' and table_name = 'raw_orders'
+                ) then
+                    truncate table raw.raw_orders;
+                end if;
+
+                if exists (
+                    select 1
+                    from information_schema.tables
+                    where table_schema = 'raw' and table_name = 'raw_customers'
+                ) then
+                    truncate table raw.raw_customers;
+                end if;
+
+                if exists (
+                    select 1
+                    from information_schema.tables
+                    where table_schema = 'raw' and table_name = 'raw_products'
+                ) then
+                    truncate table raw.raw_products;
+                end if;
+            end
+            $$;
+        """))

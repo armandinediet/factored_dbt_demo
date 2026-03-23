@@ -121,8 +121,8 @@ make dbt-test
 
 ### ingest commands
 ```bash
-	poetry run -m src.ingest.api_ingest
-	poetry run -m src.ingest.generate_orders
+	poetry run python -m src.ingest.api_ingest
+	poetry run python -m src.ingest.generate_orders
 ```
 
 

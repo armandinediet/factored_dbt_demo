@@ -84,7 +84,19 @@ def load_orders(num_orders: int = 200) -> None:
     engine = get_engine()
 
     with get_connection() as connection:
-        connection.execute(text("truncate table raw.raw_order_items, raw.raw_orders;"))
+        connection.execute(text("""
+            do $$
+            begin
+                if to_regclass('raw.raw_order_items') is not null then
+                    truncate table raw.raw_order_items;
+                end if;
+
+                if to_regclass('raw.raw_orders') is not null then
+                    truncate table raw.raw_orders;
+                end if;
+            end
+            $$;
+        """))
 
     orders_df.to_sql("raw_orders", engine, schema="raw", if_exists="append", index=False)
     order_items_df.to_sql("raw_order_items", engine, schema="raw", if_exists="append", index=False)
