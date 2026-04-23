@@ -132,5 +132,4 @@ poetry run dbt run --project-dir ./dbt --profiles-dir ./dbt
 poetry run dbt test --project-dir ./dbt --profiles-dir ./dbt
 poetry run dbt seed --project-dir ./dbt --profiles-dir ./dbt
 poetry run dbt build --project-dir ./dbt --profiles-dir ./dbt
-
 ```
