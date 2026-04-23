@@ -133,3 +133,18 @@ poetry run dbt test --project-dir ./dbt --profiles-dir ./dbt
 poetry run dbt seed --project-dir ./dbt --profiles-dir ./dbt
 poetry run dbt build --project-dir ./dbt --profiles-dir ./dbt
 ```
+
+
+recommended env file
+```bash
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_DB=analytics
+POSTGRES_USER=analytics
+POSTGRES_PASSWORD=analytics
+
+DUMMYJSON_BASE_URL=https://dummyjson.com
+
+PROJECT_DIR=./dbt
+PROFILES_DIR=./dbt
+```
